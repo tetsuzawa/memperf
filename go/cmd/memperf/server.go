@@ -84,9 +84,13 @@ func Ping(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "pong")
 }
 
+var rwmutex = &sync.RWMutex{}
+
 func FrameHandler(w http.ResponseWriter, r *http.Request) {
 	frameId := rand.Int63n(50000) + 1
+	rwmutex.RLock()
 	frame, ok := frames[frameId]
+	rwmutex.RUnlock()
 	if !ok {
 		http.NotFound(w, r)
 		return
