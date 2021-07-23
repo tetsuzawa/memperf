@@ -103,7 +103,3 @@ func UpdateFramesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintln(w, "updated frames")
 }
-
-func HandleWithAgent() {
-
-}
