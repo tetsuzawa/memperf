@@ -10,6 +10,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"sync"
 )
 
 var (
@@ -63,8 +64,11 @@ func updateFrames() error {
 	if err := json.Unmarshal(b, &framesDecorder); err != nil {
 		return err
 	}
+	mutex := &sync.Mutex{}
 	for _, frame := range framesDecorder.Items {
+		mutex.Lock()
 		frames[frame.Id] = frame
+		mutex.Unlock()
 	}
 
 	if readFrameNum == 1 {
