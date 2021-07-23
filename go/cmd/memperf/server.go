@@ -65,11 +65,10 @@ func updateFrames() error {
 	if err := json.Unmarshal(b, &framesDecorder); err != nil {
 		return err
 	}
-	mutex := &sync.Mutex{}
 	for _, frame := range framesDecorder.Items {
-		mutex.Lock()
+		rwmutex.Lock()
 		frames[frame.Id] = frame
-		mutex.Unlock()
+		rwmutex.Unlock()
 	}
 
 	if readFrameNum == 1 {
