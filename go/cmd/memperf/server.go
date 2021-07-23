@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	newrelic "github.com/newrelic/go-agent"
 	"github.com/tetsuzawa/memperf"
 	"io"
 	"log"
@@ -14,6 +15,8 @@ import (
 var (
 	frames       = map[int64]memperf.Frame{}
 	readFrameNum = 1
+
+	newrelicLicenceKey = ""
 )
 
 func Init() {
@@ -22,12 +25,22 @@ func Init() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	newrelicLicenceKey = os.Getenv("NEWRELIC_LICENSE_KEY")
+	if newrelicLicenceKey == "" {
+		log.Fatalln("newrelicLicenceKey is not set")
+	}
 }
 
 func Run() {
-	http.HandleFunc("/ping", Ping)
-	http.HandleFunc("/frame", FrameHandler)
-	http.HandleFunc("/internal/update/frame", UpdateFramesHandler)
+	app, err := newrelic.NewApplication(newrelic.NewConfig("memperf", newrelicLicenceKey))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	http.HandleFunc(newrelic.WrapHandleFunc(app, "/ping", Ping))
+	http.HandleFunc(newrelic.WrapHandleFunc(app, "/frame", FrameHandler))
+	http.HandleFunc(newrelic.WrapHandleFunc(app, "/internal/update/frame", UpdateFramesHandler))
 
 	log.Println("server is running at localhost:9999")
 	if err := http.ListenAndServe(":9999", nil); err != nil {
@@ -89,4 +102,8 @@ func UpdateFramesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprintln(w, "updated frames")
+}
+
+func HandleWithAgent() {
+
 }

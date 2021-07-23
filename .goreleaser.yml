@@ -1,0 +1,20 @@
+project_name: memperf
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - main: ./go/cmd/memperf
+    binary: memperf
+    ldflags:
+      - -s -w
+      - -X main.Revision={{.ShortCommit}}
+archives:
+  - name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    replacements:
+      darwin: darwin
+      linux: linux
+      windows: windows
+      386: i386
+      amd64: x86_64
+release:
+  prerelease: auto
