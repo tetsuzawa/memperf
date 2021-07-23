@@ -1,7 +1,7 @@
 before:
   hooks:
     - cmd: go mod tidy
-      dir: ./go # specify command working directory
+      dir: ./go
 builds:
   - main: ./go/cmd/memperf
     dir: ./go
