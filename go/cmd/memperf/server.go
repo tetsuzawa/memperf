@@ -41,6 +41,7 @@ func Run() {
 
 	http.HandleFunc(newrelic.WrapHandleFunc(app, "/ping", Ping))
 	http.HandleFunc(newrelic.WrapHandleFunc(app, "/frame", FrameHandler))
+	http.HandleFunc(newrelic.WrapHandleFunc(app, "/frame/num", FramesNumHandler))
 	http.HandleFunc(newrelic.WrapHandleFunc(app, "/internal/update/frame", UpdateFramesHandler))
 
 	log.Println("server is running at localhost:9999")
@@ -106,4 +107,8 @@ func UpdateFramesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprintln(w, "updated frames")
+}
+
+func FramesNumHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "frames num: %v\n", readFrameNum)
 }
