@@ -1,8 +1,16 @@
 NEWRELIC_LICENSE_KEY :=
 
-.PHONY: all run update
+.PHONY: all install setup run update/frame
 all:
 	less Makefile
+
+install:
+	yum install -y curl git
+
+setup: install
+	$(MAKE) /var/run/memperf
+	$(MAKE) /var/lib/memperf
+
 
 /var/lib/memperf:
 	mkdir -p $@
@@ -14,7 +22,8 @@ all:
 /etc/cron.d/memperf: /var/lib/memperf
 	cp -f $</cron.d/memperf $@
 
-run:
-	NEWRELIC_LICENSE_KEY=$(NEWRELIC_LICENSE_KEY) /var/run/memperf
+run: /var/run/memperf /etc/cron.d/memperf
+	NEWRELIC_LICENSE_KEY=$(NEWRELIC_LICENSE_KEY) $<
 
-update
+update/frame:
+	curl http://localhost:9999/internal/update/frame
