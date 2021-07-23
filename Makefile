@@ -1,5 +1,6 @@
 NEWRELIC_LICENSE_KEY :=
 
+.PHONY: all run update
 all:
 	less Makefile
 
@@ -13,6 +14,7 @@ all:
 /etc/cron.d/memperf: /var/lib/memperf
 	cp -f $</cron.d/memperf $@
 
-.PHONY: run
 run:
 	NEWRELIC_LICENSE_KEY=$(NEWRELIC_LICENSE_KEY) /var/run/memperf
+
+update
