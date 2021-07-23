@@ -1,5 +1,5 @@
 builds:
-  - main: ./go/cmd/memperf
+  - main: ./cmd/memperf
     dir: ./go
     binary: memperf
     ldflags:
