@@ -1,4 +1,4 @@
-RELEASE_TAG := v0.0.4
+RELEASE_TAG := v0.0.6
 OS := linux
 ARCH := x86_64
 
