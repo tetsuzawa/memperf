@@ -13,4 +13,4 @@ HOME=/
 # |  |  |  |  |
 # *  *  *  *  * user-name command to be executed
 
-*/5 * * * * root timeout 1800 flock -w 1 /var/run/memperf/update-frames.lock make -C /var/lib/pmml update-ctr-prediction-model >>/var/log/app_tmp/zgok/update-ctr-prediction-model.log 2>&1
+*/5 * * * * root timeout 1800 flock -w 1 /var/run/memperf/update-frames.lock make -C /var/lib/mempref update-ctr-prediction-model >>/var/log/app_tmp/zgok/update-ctr-prediction-model.log 2>&1

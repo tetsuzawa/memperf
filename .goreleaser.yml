@@ -1,8 +1,7 @@
-project_name: memperf
 before:
   hooks:
     - cmd: go mod tidy
-      dir: ./go
+      dir: ./go # specify command working directory
 builds:
   - main: ./go/cmd/memperf
     dir: ./go
