@@ -1,11 +1,11 @@
 project_name: memperf
 before:
   hooks:
-  - cmd: go mod tidy
-    dir: ./go
+    - cmd: go mod tidy
+      dir: ./go
 builds:
   - main: ./go/cmd/memperf
-    dir: go
+    dir: ./go
     binary: memperf
     ldflags:
       - -s -w
