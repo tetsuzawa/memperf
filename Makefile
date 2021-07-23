@@ -1,11 +1,14 @@
 NEWRELIC_LICENSE_KEY :=
+RELEASE_TAG := v0.0.3
+OS := linux
+ARCH := x86_64
 
 .PHONY: all install setup run update/frame
 all:
 	less Makefile
 
 install:
-	yum install -y curl git
+	yum install -y curl git wget
 
 setup: install
 	$(MAKE) /var/run/memperf
@@ -16,8 +19,12 @@ setup: install
 	mkdir -p $@
 	git clone https://github.com/tetsuzawa/memperf $@
 
-/var/run/memperf:
-	tar -xvf aaa
+/var/run/memperf_$(OS)_$(ARCH).tar.gz:
+	https://github.com/tetsuzawa/memperf/releases/download/$(RELEASE_TAG)/memperf_$(OS)_$(ARCH).tar.gz
+
+
+/var/run/memperf: /var/run/memperf_$(OS)_$(ARCH).tar.gz
+	tar -xvf $< $@
 
 /etc/cron.d/memperf: /var/lib/memperf
 	cp -f $</cron.d/memperf $@
