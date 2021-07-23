@@ -1,7 +1,3 @@
-#before:
-#  hooks:
-#    - cmd: go mod tidy
-#      dir: ./go
 builds:
   - main: ./go/cmd/memperf
     dir: ./go
